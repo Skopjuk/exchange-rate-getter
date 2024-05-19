@@ -14,6 +14,7 @@ var privateAPIKey string = "b85f0e157ce6d87d4bbab28b3d0f6537-32a0fef1-c4adcfcf"
 func Sender() {
 	mg := mailgun.NewMailgun(yourDomain, privateAPIKey)
 
+	//	s.GetSubscriptions()
 	rate, _ := GetExchangeRate()
 
 	sender := "ksenia.agag@gmail.com"

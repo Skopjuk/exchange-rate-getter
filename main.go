@@ -19,10 +19,6 @@ func main() {
 		logrus.Fatalf("error initializing configs: %s", err.Error())
 	}
 
-	c := cron.New()
-	c.AddFunc("CRON_TZ=Europe/Kyiv 38 18 * * *", services2.Sender)
-	c.Start()
-
 	if err := godotenv.Load(); err != nil {
 		logrus.Fatalf("error loaing env variables:%s", err.Error())
 	}
@@ -41,6 +37,9 @@ func main() {
 
 	repo := repository.NewRepository(db)
 	services := services2.NewService(repo)
+	c := cron.New()
+	c.AddFunc("CRON_TZ=Europe/Kyiv 38 18 * * *", services2.Sender)
+	c.Start()
 	handlers := handlers2.NewHandler(services, logger)
 	srv := new(server.Server)
 	if err := srv.Run(viper.GetString("port"), handlers.InitRouters()); err != nil {

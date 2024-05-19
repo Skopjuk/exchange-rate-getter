@@ -18,6 +18,18 @@ services:
       DB_NAME: "exchange_rates"
     ports:
       - "8080:8080"
+    expose:
+      - "8080/tcp"
     depends_on:
       - postgres
+      - migrate
+
+  migrate:
+    image: migrate/migrate
+    volumes:
+      - ./schema/:/migrations
+    command: [ "-path", "/migrations", "-database",  "postgres://postgres:qwerty@postgres:5432/exchange_rates?sslmode=disable", "up" ]
+    depends_on:
+      - postgres
+
 
